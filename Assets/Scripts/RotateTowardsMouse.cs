@@ -19,14 +19,11 @@ public class RotateTowardsMouse : MonoBehaviour
     void Update() 
 	{
         //Trova la direzione tra il transform e il braccio
-        Vector2 screenPosition = 
+        Vector3 screenPosition = 
 			Camera.main.WorldToScreenPoint(transform.position);
 		
-		Vector2 direction = 
-			(Input.mousePosition - screenPosition) as Vector2;
-
-		Vector3 lookDirection =
-			new Vector3(direction.x, direction.y);
+		Vector3 lookDirection = 
+			(Vector3)(Input.mousePosition - screenPosition);
 
 		/*
 		 * In alternativa provare direttamente con 
