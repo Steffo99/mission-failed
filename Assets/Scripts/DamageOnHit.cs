@@ -2,13 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewBehaviourScript : MonoBehaviour {
+public class NewBehaviourScript : MonoBehaviour
+{
+	#region Fields
 
-    public int damage = 1;
+	public int damage = 1;
 
-	// Quando il gameObject tocca qualcosa di solido...
-	void OnCollisionEnter2D (Collision2D collision) {
-		//Controlla se quello che ha colpito (collision.gameObject) è il giocatore (controlla tipo se il tag è "Player")
-        //Se sì, trova il suo componente healthController e chiamane il metodo .Damage(int danni)
+	#endregion
+
+	#region On collision enter - 2D
+	/// <summary>
+	/// Checks whether the game object has hit
+	/// the player.
+	/// </summary>
+	void OnCollisionEnter2D (Collision2D collision)
+    {
+		var collidedObj = collision.gameObject;
+		if (collidedObj.CompareTag("Player")) 
+		{
+			var healthComponent = 
+				collidedObj.GetComponent<HealthController>();
+
+			healthComponent.Damage(damage);
+		}
 	}
+	#endregion
 }
