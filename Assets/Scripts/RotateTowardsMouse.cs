@@ -4,40 +4,13 @@ using UnityEngine;
 
 public class RotateTowardsMouse : MonoBehaviour 
 {
-	/// <summary>
-	/// Velocità a cui far ruotare il braccio.
-	/// </summary>
-	public int speed = 1;
-
-	/// <summary>
-	/// Per testing.
-	/// Determina se bisogna utilizzare 
-	/// Quaternion.Slerp() o Quaternion.LookDirection().
-	/// </summary>
-	public bool useSlerp = false;
+    public float minAngle;
+    public float maxAngle;
 
     void Update() 
 	{
-        //Trova la direzione tra il transform e il braccio
-        Vector3 screenPosition = 
-			Camera.main.WorldToScreenPoint(transform.position);
-		
-		Vector3 lookDirection = 
-			(Vector3)(Input.mousePosition - screenPosition);
-
-		/*
-		 * In alternativa provare direttamente con 
-		 * lookDirection = Input.mousePosition;
-		 */
-		if (useSlerp) 
-		{
-			Quaternion.Slerp (
-				transform.rotation, 						// Rotazione iniziale
-				Quaternion.LookRotation (lookDirection), 	// Rotazione finale
-				speed * Time.deltaTime);					// Velocità dell'interpolazione
-		}
-		
-		else // Questo dovrebbe bastare
-			Quaternion.LookRotation (lookDirection);
+        Vector2 screenPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+		Vector2 lookDirection = ((Vector2)transform.position - screenPoint);
+        transform.rotation = Quaternion.FromToRotation(Vector3.up, lookDirection);
     }
 }

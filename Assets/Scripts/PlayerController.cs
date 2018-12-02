@@ -5,43 +5,31 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
     public float movementSpeed = 1f;
-    public float initialJumpForce = 10f;
-    public float pushDownOnReleaseForce = 5f;
-    public bool jumpAvailable = true;
 
+    private Vector3 startingScale;
     private new Rigidbody2D rigidbody;
+    private Animator animator;
 
     private void Start()
     {
+        startingScale = transform.localScale;
         rigidbody = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     private void FixedUpdate () {
         float horizontalMovement = 0;
         if(Input.GetKey(KeyCode.A)) {
             horizontalMovement -= movementSpeed;
+            transform.localScale = new Vector3(-startingScale.x, startingScale.y, startingScale.z);
         }
         if(Input.GetKey(KeyCode.D))
         {
             horizontalMovement += movementSpeed;
+            transform.localScale = new Vector3(startingScale.x, startingScale.y, startingScale.z);
         }
-        if(jumpAvailable && Input.GetKeyDown(KeyCode.W))
-        {
-            jumpAvailable = false;
-            rigidbody.AddForce(Vector2.up * initialJumpForce);
-        }
-        if(Input.GetKeyUp(KeyCode.W))
-        {
-            rigidbody.AddForce(Vector2.down * pushDownOnReleaseForce);
-        }
+        animator.SetBool("isWalking", horizontalMovement != 0);
         rigidbody.velocity = new Vector3(horizontalMovement * movementSpeed, rigidbody.velocity.y);
 	}
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if(collision.gameObject.CompareTag("Terrain"))
-        {
-            jumpAvailable = true;
-        }
-    }
 }

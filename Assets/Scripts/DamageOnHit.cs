@@ -2,29 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewBehaviourScript : MonoBehaviour
+public class DamageOnHit : MonoBehaviour
 {
-	#region Fields
-
+    public string targetTag;
 	public int damage = 1;
 
-	#endregion
-
-	#region On collision enter - 2D
-	/// <summary>
-	/// Checks whether the game object has hit
-	/// the player.
-	/// </summary>
 	void OnCollisionEnter2D (Collision2D collision)
     {
-		var collidedObj = collision.gameObject;
-		if (collidedObj.CompareTag("Player")) 
+		GameObject collidedObj = collision.gameObject;
+		if (collidedObj.CompareTag(targetTag)) 
 		{
-			var healthComponent = 
-				collidedObj.GetComponent<HealthController>();
-
-			healthComponent.Damage(damage);
+			HealthController healthController = collidedObj.GetComponent<HealthController>();
+			healthController.Damage(damage);
 		}
 	}
-	#endregion
 }
