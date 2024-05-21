@@ -1,3 +1,9 @@
-# Ludum Dare 43
+<div align="center">
 
-I actually gave up on this. There's no game here.
+![](.media/banner.jpg)
+
+# Mission Failed
+
+Abandoned platformer where you could trade parts of your body in exchange for powerups with a tradeoff
+
+</div>
